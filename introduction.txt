@@ -1,0 +1,116 @@
+Exercise: 
+
+1. What data types do each of these values represent?
+
+"A Clockwork Orange" -string
+42 -integer
+09/02/1945 -integer
+98.7 - float
+$15.99 -float
+
+2. Explain when a database would be used. Explain when a text file would be used.
+
+Answer: 
+
+* DBs are a good idea when dealing with massive amounts of data which need indexing and efficient storage. For smaller data sets, text files can be used. 
+
+
+* The important characteristic of flat files is that the application accessing them is completely responsible for knowing what structure, if any, exists within them — and for preserving the integrity of that structure during updates. Typically, when the data is structured, the application must read it into memory structures (known as deserialization), work on it in memory, and then flatten the structures back out into the flat file (known as serialization). A database, in contrast, is a structured data container with an API (application program interface) that is used to access it.
+ 
+3. Describe one difference between SQL and other programming languages.
+
+Answer:
+
+SQL is a nonprocedural language that is designed specifically for data access operations on normalized relational database structures. The primary difference between SQL and other conventional programming languages is that SQL statements specify what data operations should be performed rather than how to perform them.
+
+4. In your own words, explain how the pieces of a database system fit together at a high level.
+
+Answer: 
+
+A relational database is one in which data is organized into one or more tables. Each table has a set of fields, which define the nature of the data stored in the table. A record is one instance of a set of fields in a table. To visualize this, think of the records as the rows of the table and the fields as the columns of the table.
+
+5. Explain the meaning of table, row, column, and value.
+
+Answer: 
+
+
+Table: A table is a collection of related data held in a table format within a database. It consists of columns, and rows.
+
+Rows & columns:  a table is a set of data elements (values) using a model of vertical columns (identifiable by name) and horizontal rows, the cell being the unit where a row and column intersect.
+
+Value: is the data cell stores. 
+
+6. List three data types that can be used in a table.
+
+Answer: String, intergers, floats. 
+
+7. Given this payments table, provide an English description of the following queries and include their results:
+
+A.   SELECT date, amount
+     FROM payments;
+
+This query selects date and amount from the payments table. 
+
+Query #1 Execution time: 1ms
+date	amount
+2016-05-01T00:00:00.000Z	1500.0000
+2016-05-10T00:00:00.000Z	37.0000
+2016-05-15T00:00:00.000Z	124.9300
+2016-05-23T00:00:00.000Z	54.7200
+
+
+
+b.SELECT amount
+     FROM payments
+     WHERE amount > 500;
+
+This query is for payments over $500. 
+
+
+1500.000
+
+c.  SELECT *
+     FROM payments
+     WHERE payee = 'Mega Foods';
+
+This query is for payment made to Mega foods. 
+
+
+**Query #1**
+
+    SELECT *
+         FROM payments
+         WHERE payee = 'Mega Foods';
+
+| date                     | payee      | amount   | memo      |
+| ------------------------ | ---------- | -------- | --------- |
+| 2016-05-15T00:00:00.000Z | Mega Foods | 124.9300 | Groceries |
+
+---
+
+
+8. Given this users table, write SQL queries using the following criteria and include the output:
+
+a. The email and sign-up date for the user named DeAndre Data.
+
+Answer: 
+
+SELECT email, signup
+FROM users
+WHERE name = 'DeAndre Data';
+
+b. The user ID for the user with email 'aleesia.algorithm@uw.edu'.
+
+Answer: 
+
+SELECT userid
+FROM users
+WHERE email = 'aleesia.algorithm@uw.edu';
+
+c. All the columns for the user ID equal to 4.
+
+Answer: 
+
+SELECT *
+FROM users
+WHERE userid = '4';
