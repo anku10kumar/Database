@@ -1,0 +1,239 @@
+
+Exercise: 
+
+
+1. How do you find related data held in two separate data tables?
+
+Answer: JOIN is the method used to combine data from two or more tables in a databased based on attributes shared between the tables.
+
+
+2. Explain, in your own words, the difference between an INNER JOIN, LEFT OUTER JOIN, and RIGHT OUTER JOIN. Give a real-world example for each.
+
+Answer: 
+
+
+Orders table: 
+
+OrderID	CustomerID	EmployeeID	OrderDate	ShipperID
+10308	2		7		1996-09-18	3
+10309	37		3		1996-09-19	1
+10310	77		8		1996-09-20	2
+
+Customers Table: 
+
+CustomerID	CustomerName					
+1		Alfreds	Maria		
+2	        Ana Trujillo
+3	        Antonio Moreno 
+
+Employees Table: 
+
+EmployeeID	LastName	FirstName	BirthDate	Photo
+1		Davolio		Nancy		12/8/1968	EmpID1.pic
+2		Fuller		Andrew		2/19/1952	EmpID2.pic
+3		Leverling	Janet		8/30/1963	EmpID3.pic
+
+
+
+* (INNER) JOIN: Returns records that have matching values in both tables- 
+
+SELECT Orders.OrderID, Customers.CustomerName
+FROM Orders
+INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID;
+
+* LEFT (OUTER) JOIN: Returns all records from the left table, and the matched records from the right table
+
+SELECT Customers.CustomerName, Orders.OrderID
+FROM Customers
+LEFT JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+ORDER BY Customers.CustomerName;
+
+* RIGHT (OUTER) JOIN: Returns all records from the right table, and the matched records from the left table
+
+SELECT Orders.OrderID, Employees.LastName, Employees.FirstName
+FROM Orders
+RIGHT JOIN Employees ON Orders.EmployeeID = Employees.EmployeeID
+ORDER BY Orders.OrderID;
+
+3. Define primary key and foreign key. Give a real-world example for each.
+
+Answer: 
+
+* The PRIMARY KEY constraint uniquely identifies each record in a table.
+
+Primary keys must contain UNIQUE values, and cannot contain NULL values.
+
+* A FOREIGN KEY is a key used to link two tables together.
+
+A FOREIGN KEY is a field (or collection of fields) in one table that refers to the PRIMARY KEY in another table.
+
+
+"Persons" table:
+
+PersonID	LastName	FirstName	Age
+1		Hansen		Ola		30
+2		Svendson	Tove		23
+3		Pettersen	Kari		20
+
+"Orders" table:
+
+OrderID	OrderNumber	PersonID
+1	77895		3
+2	44678		3
+3	22456		2
+4	24562		1
+
+The "PersonID" column in the "Persons" table is the PRIMARY KEY in the "Persons" table.
+
+The "PersonID" column in the "Orders" table is a FOREIGN KEY in the "Orders" table.
+
+4. Define aliasing.
+
+Answer: SQL aliases are used to give a table, or a column in a table, a temporary name.
+
+Aliases are often used to make column names more readable.
+
+An alias only exists for the duration of the query.
+
+
+5. Change this query so that you are using aliasing:
+
+SELECT p.name, c.salary,
+compensation.vacation_days FROM professor AS p 
+JOIN compensation AS c 
+ON p.id =
+c.p_id;
+
+6. Why would you use a NATURAL JOIN? Give a real-world example.
+
+
+The natural join is a special case of an equi-join. In the WHERE clause of an equi-join, a column from one source table is compared with a column of a second source table for equality. The two columns must be the same type and length and must have the same name.
+
+In fact, in a natural join, all columns in one table that have the same names, types, and lengths as corresponding columns in the second table are compared for equality.
+
+
+Imagine that the COMPENSATION table from the preceding example has columns EmpID, Salary, and Bonus rather than Employ, Salary, and Bonus. In that case, you can perform a natural join of the COMPENSATION table with the EMPLOYEE table. The traditional JOIN syntax would look like this:
+
+SELECT E.*, C.Salary, C.Bonus
+ FROM EMPLOYEE E, COMPENSATION C
+ WHERE E.EmpID = C.EmpID ;
+This query is a special case of a natural join. The SELECT statement will return joined rows where E.EmpID = C.EmpID. Consider the following:
+
+SELECT E.*, C.Salary, C.Bonus
+ FROM EMPLOYEE E NATURAL JOIN COMPENSATION C ;
+
+This query will join rows where E.EmpID = C.EmpID, where E.Salary = C.Salary, and where E.Bonus = C.Bonus. The result table will contain only rows where all corresponding columns match. In this example, the results of both queries will be the same because the EMPLOYEE table does not contain either a Salary or a Bonus column.
+
+
+7. Using this Employee schema and data, write queries to find the following information:
+List all employees and all shifts.
+
+SELECT *
+
+FROM employees
+RIGHT OUTER JOIN shifts
+
+ON employees.id =shifts.id 
+
+8. Using this Adoption schema and data, please write queries to retrieve the following information and include the results:
+
+* Create a list of all volunteers. If the volunteer is fostering a dog, include each dog as well.
+
+SELECT volunteers.first_name, volunteers.last_name, dogs.name
+FROM volunteers
+LEFT JOIN dogs
+ON volunteers.foster_dog_id = dogs.id
+
+* The cat's name, adopter's name, and adopted date for each cat adopted within the past month to be displayed as part of the "Happy Tail" social media promotion which posts recent successful adoptions.
+
+SELECT cats.name, adopters.first_name, adopters.last_name, cat_adoptions.date
+
+FROM cat_adoptions
+
+JOIN cats ON cats.id=cat_adoptions.cat_id
+
+JOIN adopters ON adopters.id=cat_adoptions.adopter_id
+
+WHERE cat_adoptions.date > CURRENT_DATE - INTERVAL '30 DAYS';
+
+
+* Create a list of adopters who have not yet chosen a dog to adopt.
+
+SELECT *
+
+FROM adopters 
+
+LEFT JOIN dog_adoptions ON adopters.id = dog_adoptions.adopter_id
+
+WHERE dog_adoptions.dog_id IS NULL
+
+* Lists of all cats and all dogs who have not been adopted.
+
+Query for cats - 
+
+SELECT *
+
+FROM cats
+
+LEFT JOIN cat_adoptions ON cats.id= cat_adoptions.cat_id
+
+WHERE cat_adoptions.adopter_id IS NULL
+
+
+Query for dogs- 
+
+SELECT *
+
+FROM dogs
+
+LEFT JOIN dog_adoptions ON dogs.id=dog_adoptions.dog_id
+
+WHERE dog_adoptions.adopter_id IS NULL
+
+
+
+* The name of the person who adopted Rosco.
+
+
+SELECT *
+
+FROM dogs
+
+LEFT JOIN dog_adoptions ON dogs.id=dog_adoptions.dog_id
+
+RIGHT JOIN adopters ON dog_adoptions.adopter_id= adopters.id
+
+WHERE dogs.name = 'Rosco'
+
+
+9. Using this Library schema and data, write queries applying the following scenarios and include the results:
+
+* To determine if the library should buy more copies of a given book, please provide the names and position, in order, of all of the patrons with a hold (request for a book with all copies checked out) on "Advanced Potion-Making".
+
+Answer: 
+
+SELECT patrons.name, holds.rank, books.title
+
+FROM holds
+
+LEFT OUTER JOIN patrons ON holds.patron_id = patrons.id 
+
+LEFT OUTER JOIN books ON books.isbn=holds.isbn
+
+where books.title = 'Advanced Potion-Making'
+
+ ORDER BY 2;
+
+* List all of the library patrons. If they have one or more books checked out, list the books with the patrons.
+
+Answer: 
+
+SELECT patrons.name, books.title, transactions.checked_out_date
+
+FROM patrons
+
+LEFT OUTER JOIN transactions ON patrons.id = transactions.patron_id 
+
+left outer join books on transactions.isbn=books.isbn
+ order by 2;
+
